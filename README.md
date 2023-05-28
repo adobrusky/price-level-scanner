@@ -19,4 +19,24 @@ The Price Level Scanner is a web application that utilizes an OCR (Optical Chara
 
 Note: It's important to ensure that the uploaded image contains clear and legible price levels for accurate scanning. Make sure it only includes price levels. Below is an example image. Notice the ticker symbol and candle countdown timer have been covered up with red paint so that those elements are not scanned.
 
-![Example Price Levels](https://imgur.com/a/SPS54Ym)
+![Example Price Levels](https://i.imgur.com/pJUlja2.png)
+
+## Installation
+
+To run the Price Level Scanner locally, follow these steps:
+
+1. Clone the repository:
+```git clone https://github.com/adobrusky/price-level-scanner.git```
+
+2. Navigate to the project directory:
+```cd price-level-scanner```
+
+3. Install the required dependencies using npm:
+```npm install axios express```
+This will install the necessary packages axios and express.
+
+4. Start the application:
+```node app.js```
+This will start the application on your local machine.
+
+Open your web browser and visit http://localhost:3000 to access the Price Level Scanner.
