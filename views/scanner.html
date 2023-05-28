@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Price Level Scanner</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Custom styles */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 500px;
+      margin-top: 50px;
+    }
+
+    h1 {
+      color: #343a40;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #dc3545;
+    }
+
+    textarea {
+      background-color: #f8f9fa;
+      border: none;
+      resize: none;
+    }
+
+    .input-group-append {
+      margin-top: 10px;
+    }
+
+    .btn-primary {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-primary:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Price Level Scanner</h1>
+
+    <form>
+      <div class="form-group">
+        <label for="imageUpload">Upload Image</label>
+        <input type="file" class="form-control-file" id="imageUpload" accept="image/*" />
+      </div>
+    </form>
+
+    <div class="form-group">
+      <label for="scanResults">Scan Results</label>
+      <div class="input-group" style="flex-direction: column;">
+        <textarea class="form-control" id="scanResults" style="width:100%;" rows="10" readonly></textarea>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="copyButton" style="width:100%;">
+            <i class="fa fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Bootstrap JS and Clipboard.js library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Handle file upload
+      $('#imageUpload').on('change', function (e) {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+          let imageData = e.target.result;
+          let base64Image = imageData; // Extract base64-encoded string
+          $.ajax({
+            url: '/scan',
+            method: 'POST',
+            data: { image: base64Image },
+            success: function (response) {
+              $('#scanResults').val(response);
+            },
+            error: function (error) {
+              console.log(error);
+            }
+          });
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      // Handle copy button click
+      $('#copyButton').on('click', function () {
+        let scanResult = $('#scanResults');
+        scanResult.select();
+        document.execCommand('copy');
+      });
+    });
+  </script>
+</body>
+
+</html>
