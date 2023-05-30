@@ -13,7 +13,7 @@ app.get('/scanner', (req, res) => {
 app.post('/scan', (req, res) => {
   const { image } = req.body;
 
-  const formData = new FormData();
+  const formData = new URLSearchParams();
 
   formData.append('base64Image', image);
   formData.append('apikey', 'K84011919688957');
@@ -24,11 +24,8 @@ app.post('/scan', (req, res) => {
   formData.append('OCREngine', 2);
 
   axios.post('https://api.ocr.space/parse/image', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-    .then(response => {
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  }).then(response => {
       const result = response.data;
       if (result.IsErroredOnProcessing) {
         res.send(result.ErrorMessage);
